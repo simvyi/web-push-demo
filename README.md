@@ -23,3 +23,24 @@ The following guide shows how to this on Windows
 8. Click `Next` and `Finish`
 9. You should now get a message confirming that the import was successful
 10. Close the widget by clicking `OK`
+
+## Install Dependencies
+
+Before running the applications we need to install the dependncies. I like to use `pnpm` as my package manager, however you can also use `yarn` or `npm`.
+
+Do the following:
+
+1. Navigate to either the `backend/` or `frontend/` folder
+2. Run `npm install`, `yarn install` or `pnpm install`
+3. Run `pnpm dev` to start the application
+
+## Configure VAPID Details
+
+After installing all packages we need to generate a set of VAPID keys.
+To do this do the following:
+
+1. Navigate to the `backend/` folder and run `web-push generate-vapid-keys` from the CLI to generate the VAPID keys.
+2. Insert the public and private keys into the `backend/src/env-variables.ts` then add a subject.
+3. Insert the public key into the `frontend/src/env-variables.ts`
+
+Now the application should work.

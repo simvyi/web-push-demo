@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+  <title>UI</title>
+  <script>
+    async function sendNotification() {
+      const result = await fetch("https://localhost:5000/send-notification").then(res => res.json());
+      updateResultUI(result);
+    }
+
+    function updateResultUI(result) {
+      const codeElement = document.getElementById("send-result");
+      codeElement.innerText = JSON.stringify(result, null, 4);
+    }
+
+    function main() {
+      const button = document.getElementById("send-btn");
+      button.onclick = sendNotification;
+    }
+
+    window.onload = main;
+  </script>
+</head>
+<body>
+  <main class="container">
+      <h1>Send Notification GUI</h1>
+      <button style="max-width: 200px;" id="send-btn">Send</button>
+      <div>
+        <pre id="send-result">No result</pre>
+      </div>
+  </main>
+</body>
+</html>
