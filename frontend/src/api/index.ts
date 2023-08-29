@@ -1,6 +1,6 @@
 import { apiUrl } from "../env-variables";
 
-export async function saveTokenOnServer(
+export async function saveOnServer(
   subscription: PushSubscription,
   accessToken: string
 ) {
@@ -13,8 +13,19 @@ export async function saveTokenOnServer(
     },
     body: JSON.stringify(subscription),
   })
-    .then(() => console.log("Token has been saved"))
+    .then(() => console.log("Subscription has been saved"))
     .catch((e) => {
       console.error((e as Error).message);
     });
+}
+
+export async function deleteOnServer(accessToken: string) {
+  return fetch(`${apiUrl}/remove-subscription`, {
+    method: "post",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+    .then(() => console.log("deleted token on server"))
+    .catch((err) => console.log(err.message));
 }

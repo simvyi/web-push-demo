@@ -51,6 +51,13 @@ app.post("/save-subscription", (req, res) => {
   res.json({ message: "Subscription saved" });
 });
 
+app.post("/remove-subscription", (req, res) => {
+  const userId = "simeon";
+  const userAgent = req.headers["user-agent"] ?? "";
+  service.removeSubscription({ userId, userAgent });
+  res.json({ message: "Removed successfully" });
+});
+
 app.get("/send-notification", async (req, res) => {
   const subscriptions = service
     .getSubscriptions("simeon")

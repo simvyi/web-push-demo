@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { saveTokenOnServer } from "./api";
+import { saveOnServer } from "./api";
 import { subscribe } from "./subscriptions";
 
 function enableNotifications(accessToken: string) {
@@ -13,7 +13,7 @@ function enableNotifications(accessToken: string) {
       return;
     }
 
-    await saveTokenOnServer(subscription, accessToken);
+    await saveOnServer(subscription, accessToken);
   });
 }
 

@@ -29,6 +29,17 @@ export class SubscriptionManagementService {
       entry,
     ]);
   }
+
+  removeSubscription(dto: { userId: string; userAgent: string }) {
+    const entries = database.get(dto.userId);
+    if (!entries) return;
+
+    database.set(
+      dto.userId,
+      entries.filter((e) => e.userAgent !== dto.userAgent)
+    );
+  }
+
   getSubscriptions(userId: string) {
     return database.get(userId) ?? [];
   }
