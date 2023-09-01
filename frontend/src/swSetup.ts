@@ -5,7 +5,7 @@ function pushIsPossible() {
 export function registerSw() {
   if (!pushIsPossible) return;
 
-  void navigator.serviceWorker.register("/sw.js", {
+  return navigator.serviceWorker.register("/sw.js", {
     type: "module",
     scope: "/",
   });
@@ -13,8 +13,8 @@ export function registerSw() {
 
 export function unregisterSw() {
   if ("serviceWorker" in navigator) {
-    void navigator.serviceWorker.ready.then((registration) => {
-      void registration.unregister();
-    });
+    return navigator.serviceWorker.ready.then((registration) =>
+      registration.unregister()
+    );
   }
 }
