@@ -2,7 +2,13 @@ import { useState } from "react";
 import { saveOnServer } from "./api";
 import { subscribe } from "./subscriptions";
 
-function enableNotifications(accessToken: string) {
+/**
+ * Ask user for permission to show notifications.
+ * If permission is granted then subscribe to the push service and save the details on the server
+ * @param accessToken Bearer token to identify the logged in user
+ */
+async function enableNotifications(accessToken: string) {
+  // Must be executed directly in the callback function for it to work on iOS/iPadOS
   return window.Notification.requestPermission().then(async (permission) => {
     if (permission !== "granted") {
       return;

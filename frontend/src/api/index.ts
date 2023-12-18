@@ -27,5 +27,5 @@ export async function deleteOnServer(accessToken: string) {
     },
   })
     .then(() => console.log("deleted token on server"))
-    .catch((err) => console.log(err.message));
+    .catch((err) => console.log((err as Error).message));
 }

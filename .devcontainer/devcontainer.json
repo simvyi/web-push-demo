@@ -1,0 +1,15 @@
+{
+	"name": "Node - Web Push Demo",
+	"image": "mcr.microsoft.com/devcontainers/typescript-node:0-18-bullseye",
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/pnpm:2": {
+			"version": "8"
+		}
+	},
+	"remoteUser": "root",
+	"forwardPorts": [
+		3000,
+		5000
+	],
+	"postCreateCommand": ""
+}
