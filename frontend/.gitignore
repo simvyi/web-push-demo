@@ -34,3 +34,5 @@ package-lock.json
 
 .env*
 !.env.example
+
+public/fcm-sw.js

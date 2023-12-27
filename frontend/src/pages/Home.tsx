@@ -1,37 +1,11 @@
-import EnablePushNotifications from "../EnablePushButton";
-
-function getBrowser() {
-  // Get the user-agent string
-  const { userAgent } = navigator;
-
-  // Detect Edge
-  const edgeAgent = userAgent.includes("Edg");
-  if (edgeAgent) return "Edge";
-
-  // Detect Firefox
-  const firefoxAgent = userAgent.includes("Firefox");
-  if (firefoxAgent) return "Firefox";
-
-  // Detect Opera
-  const operaAgent = userAgent.includes("OP");
-  if (operaAgent) return "Opera";
-
-  // Detect Chrome
-  const chromeAgent = !operaAgent && userAgent.includes("Chrome");
-  if (chromeAgent) return "Chrome";
-
-  // Detect Safari
-  const safariAgent = !chromeAgent && userAgent.includes("Safari");
-  if (safariAgent) return "Safari";
-
-  return "Unknown";
-}
+import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
+  const navigate = useNavigate();
   return (
     <div>
-      <h1>Push Notifications on {getBrowser()}</h1>
-      <EnablePushNotifications />
+      <button onClick={() => navigate("fcm")}>FCM Web Push</button>
+      <button onClick={() => navigate("generic")}>Generic Web Push</button>
     </div>
   );
 }

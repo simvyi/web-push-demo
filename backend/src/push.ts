@@ -1,5 +1,8 @@
+import { applicationDefault, initializeApp } from "firebase-admin/app";
+import { type MulticastMessage, getMessaging } from "firebase-admin/messaging";
 import webpush from "web-push";
 import type { PushSubscription } from "web-push";
+import type { FCMTokenEntry } from "./fcmTokens";
 
 export type PushMessage = {
   title: string;
@@ -30,5 +33,37 @@ export class PushClient {
           : undefined
       )
       .filter((x) => x !== undefined);
+  }
+}
+
+/* ----------------- FCM Logic --------------- */
+export class FCMPushClient {
+  private app = initializeApp({
+    credential: applicationDefault(),
+  });
+
+  constructor() {}
+
+  public get messaging() {
+    return getMessaging(this.app);
+  }
+
+  // how to send push notifications, https://firebase.google.com/docs/cloud-messaging/send-message
+  async sendPush(tokens: string[], notification: PushMessage) {
+    if (tokens.length === 0) return [];
+
+    const message = {
+      data: notification,
+      tokens: tokens,
+    } satisfies MulticastMessage;
+
+    const result = await this.messaging.sendEachForMulticast(message);
+    return result.responses
+      .filter((r) => !r.success)
+      .map((r) => ({
+        error: r.error!.message,
+        code: r.error?.code ?? "",
+        messageId: r.messageId ?? "",
+      }));
   }
 }

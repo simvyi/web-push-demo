@@ -6,30 +6,63 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
   <title>UI</title>
   <script>
-    async function sendNotification() {
-      const result = await fetch("https://localhost:5000/send-notification").then(res => res.json());
-      updateResultUI(result);
+    function sendNotification(endpoint) {
+      return fetch("https://localhost:5000" + endpoint).then(res => res.json());
     }
 
-    function updateResultUI(result) {
-      const codeElement = document.getElementById("send-result");
+    function updateResultUI(result, elementId) {
+      const codeElement = document.getElementById(elementId);
       codeElement.innerText = JSON.stringify(result, null, 4);
     }
 
     function main() {
       const button = document.getElementById("send-btn");
-      button.onclick = sendNotification;
+      button.onclick = async () => { 
+        const result = await sendNotification("/send-notification");
+        updateResultUI(result, "send-result");
+      }
+      
+      const fcmButton = document.getElementById("fcm-send-btn");
+      fcmButton.onclick = async () => {
+        const result = await sendNotification("/send-fcm-notification");
+        updateResultUI(result, "fcm-result");
+      }
     }
 
     window.onload = main;
   </script>
+  <style>
+    button {
+      max-width: 200px;
+      margin: 5px;
+    }
+
+    .results {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .results > div {
+      width: 45%;
+    }
+  </style>
 </head>
 <body>
   <main class="container">
       <h1>Send Notification GUI</h1>
-      <button style="max-width: 200px;" id="send-btn">Send</button>
-      <div>
-        <pre id="send-result">No result</pre>
+      <div class="results">
+        <div>
+          <!-- <h5>Generic Web Push</h5> -->
+          <button id="send-btn">Generic Push</button>
+          <pre id="send-result">No result</pre>
+        </div>
+        
+        <div>
+          <!-- <h5>FCM Web Push</h5> -->
+          <button id="fcm-send-btn" class="secondary">FCM Push</button>
+          <pre id="fcm-result">No result</pre>
+        </div>
       </div>
   </main>
 </body>

@@ -11,7 +11,7 @@ ST = NO
 L = NO
 O = NO
 OU = NO
-emailAddress = webmaster@example.com
+emailAddress = mail@example.com
 CN = localhost
 
 [v3_req]

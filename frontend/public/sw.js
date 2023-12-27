@@ -6,7 +6,7 @@ self.addEventListener("activate", (e) => e.waitUntil(self.clients.claim()));
 
 self.addEventListener("push", (e) => {
   const data = e.data.json();
-  console.log("[Service Worker] Push Received.");
+  console.log("[Service Worker] Generic Push Received.");
   console.log("[Service Worker]", data);
 
   e.waitUntil(
@@ -33,7 +33,7 @@ function openPage(relativeUrl) {
       type: "window",
     })
     .then((tabs) => {
-      const absoluteUrl = self.registration.scope + relativeUrl;
+      const absoluteUrl = new URL(self.registration.scope).origin + relativeUrl;
       if (tabs.length === 0) {
         return self.clients
           .openWindow(absoluteUrl)

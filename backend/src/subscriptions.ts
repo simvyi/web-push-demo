@@ -7,7 +7,7 @@ export type SubscriptionEntry = {
 
 const database = new Map<string, SubscriptionEntry[]>();
 
-export class SubscriptionManagementService {
+export class SubscriptionManager {
   saveSubscription(
     userId: string,
     userAgent: string,

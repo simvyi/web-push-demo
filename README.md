@@ -44,3 +44,7 @@ To do this do the following:
 3. Insert the public key into the `frontend/src/env-variables.ts`
 
 Now the application should work.
+
+### Useful links
+
+https://firebase.google.com/docs/admin/setup#c_1

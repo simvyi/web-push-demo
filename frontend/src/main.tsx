@@ -12,7 +12,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 );
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
-registerSw();
+registerSw("/fcm-sw.js", "/fcm");
+// eslint-disable-next-line @typescript-eslint/no-floating-promises
+registerSw("/sw.js", "/generic");
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises
 // unregisterSW();

@@ -1,29 +1,41 @@
 import { useState } from "react";
 import { saveOnServer } from "./api";
-import { subscribe } from "./subscriptions";
+import { subscribe } from "./genericPush";
 
-/**
- * Ask user for permission to show notifications.
- * If permission is granted then subscribe to the push service and save the details on the server
- * @param accessToken Bearer token to identify the logged in user
- */
-async function enableNotifications(accessToken: string) {
-  // Must be executed directly in the callback function for it to work on iOS/iPadOS
-  return window.Notification.requestPermission().then(async (permission) => {
-    if (permission !== "granted") {
-      return;
-    }
+function getBrowser() {
+  // Get the user-agent string
+  const { userAgent } = navigator;
 
-    const subscription = await subscribe(permission);
-    if (!subscription) {
-      return;
-    }
+  // Detect Edge
+  const edgeAgent = userAgent.includes("Edg");
+  if (edgeAgent) return "Edge";
 
-    await saveOnServer(subscription, accessToken);
-  });
+  // Detect Firefox
+  const firefoxAgent = userAgent.includes("Firefox");
+  if (firefoxAgent) return "Firefox";
+
+  // Detect Opera
+  const operaAgent = userAgent.includes("OP");
+  if (operaAgent) return "Opera";
+
+  // Detect Chrome
+  const chromeAgent = !operaAgent && userAgent.includes("Chrome");
+  if (chromeAgent) return "Chrome";
+
+  // Detect Safari
+  const safariAgent = !chromeAgent && userAgent.includes("Safari");
+  if (safariAgent) return "Safari";
+
+  return "Unknown";
 }
 
-export default function EnablePushNotifications() {
+type EnablePushNotificationsProps = {
+  enableNotifications: (accessToken: string) => Promise<void>;
+};
+
+export default function EnablePushNotifications({
+  enableNotifications,
+}: EnablePushNotificationsProps) {
   const getAccessToken = () => "access token";
   const [permission, setPermission] = useState(window.Notification.permission);
 
@@ -32,6 +44,7 @@ export default function EnablePushNotifications() {
 
   return (
     <div>
+      <h1>push notifications on {getBrowser()}</h1>
       <button
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onClick={async () => {
